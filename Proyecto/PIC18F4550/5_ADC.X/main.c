@@ -1,6 +1,6 @@
 /*
  * File:   main.c
- * Author: Enrique
+ * Author: Microside Technology
  *
  * Created on 27 de noviembre de 2020, 01:03 AM
  */
@@ -69,46 +69,29 @@ void ADCInit(void);
 uint16_t ReadADC(void);
 
 void main(void) {
-    InitPorts();
-    ADCInit();
-    while (1) {
-        uint16_t ValorPot=ReadADC();
-        if (ValorPot <= 112)         //Compara el valor de el ADC con 112
-            {
-                LATB=0b00000000;    // Leds activos
-            }
-        else if (ValorPot <= 224)    //Compara el valor de el ADC con 224
-            {
-                LATB=0b00000001;    // Leds activos
-            }
-        else if (ValorPot <= 336)    //Compara el valor de el ADC con 336
-            {
-                LATB=0b00000011;    // Leds activos
-            }
-        else if (ValorPot <= 448)   //Compara el valor de el ADC con 448
-            {
-                LATB=0b00000111;    // Leds activos
-            }
-        else if (ValorPot <= 560)   //Compara el valor de el ADC con 560
-            {
-                LATB=0b00001111;    // Leds activos
-            }
-        else if (ValorPot <= 672)   //Compara el valor de el ADC con 672
-            {
-                LATB=0b00011111;    // Leds activos
-            }
-        else if (ValorPot <= 784)   //Compara el valor de el ADC con 784
-            {
-                LATB=0b00111111;    // Leds activos
-            }
-        else if (ValorPot <= 950)   //Compara el valor de el ADC con 950
-            {
-                LATB=0b01111111;    // Leds activos
-            }
-        else if (ValorPot <= 1000)   //Compara el valor de el ADC con 1000
-            {
-                LATB=0b11111111;    // Leds activos
-            }
+    InitPorts();                         // Configura los pines (entradas/salidas)
+    ADCInit();                           // Configura el ADC en el pin A0
+    while ( 1 ) {
+        uint16_t ValorPot = ReadADC();
+        if ( ValorPot <= 112 ) {         // Compara el valor de el ADC con 112
+            LATB = 0b00000000;           // Leds activos
+        } else if ( ValorPot <= 224 )  { 
+            LATB = 0b00000001;           
+        } else if ( ValorPot <= 336 )  { 
+            LATB = 0b00000011;           
+        } else if ( ValorPot <= 448 )  { 
+            LATB = 0b00000111;           
+        } else if ( ValorPot <= 560 )  { 
+            LATB = 0b00001111;           
+        } else if ( ValorPot <= 672 )  { 
+            LATB = 0b00011111;           
+        } else if ( ValorPot <= 784 )  { 
+            LATB = 0b00111111;           
+        } else if ( ValorPot <= 950 )  { 
+            LATB = 0b01111111;           
+        } else if ( ValorPot <= 1000 ) { 
+            LATB = 0b11111111;           
+        }
     }
     return;
 }
@@ -128,8 +111,8 @@ void ADCInit(void) {
 
 uint16_t ReadADC(void) {
     uint16_t result;
-    ADCON0bits.GO_DONE = 1; //  Inicia la COnversió AD.
-    while (ADCON0bits.GO_DONE); //  Espera a que termine la conversión AD.
-    result = ((ADRESH << 8) + ADRESL);
+    ADCON0bits.GO_DONE = 1;              // Inicia la conversión del ADC.
+    while (ADCON0bits.GO_DONE);          // Espera a que termine la conversión del ADC.
+    result = ((ADRESH << 8) + ADRESL);   // Carga los valores del ADC en la variable result.
     return (result);
 }
